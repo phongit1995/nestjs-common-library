@@ -9,7 +9,7 @@ import {
   import { map } from 'rxjs/operators';
   
   @Injectable()
-  export class ResponseSuccessInterceptor implements NestInterceptor {
+  export class ResponseInterceptor implements NestInterceptor {
     intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
       return next.handle().pipe(
         map((data) => {
@@ -24,6 +24,17 @@ import {
             data,
           };
         }),
+        catchError((err) => {
+            if (err instanceof HttpException) {
+              if (err.getResponse() instanceof String) {
+                return throwError(() => ({
+                  statusCode: err.getStatus(),
+                  message: err.getResponse(),
+                }));
+              } else return throwError(() => err);
+            }
+            return throwError(() => err);
+          }),
       );
     }
   }
