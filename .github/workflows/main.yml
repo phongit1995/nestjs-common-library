@@ -9,10 +9,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 18.x
-          cache: "yarn"
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with: 
+          node-version: "18.x"
+      - name: Install dependencies
+        run: yarn install
 
-      - run: yarn install
-      - run: yarn build
+      - name: Run build
+        run: yarn build
