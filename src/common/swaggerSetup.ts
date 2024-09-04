@@ -18,7 +18,7 @@ export function setUpSwagger(
   if (config.addServer?.length > 0) {
     config.addServer.forEach((server) => options.addServer(server));
   }
-  if (config.isAuthBear) options.addBearerAuth();
+  options.addBearerAuth();
 
   options.build();
   const document = SwaggerModule.createDocument(app, {} as any, options as any);
