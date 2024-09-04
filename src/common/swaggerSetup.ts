@@ -10,15 +10,15 @@ export function setUpSwagger(
   app: INestApplication,
   config: SwaggerSetup = { isAuthBear: true, persistAuthorization: true }
 ) {
-  const options = new DocumentBuilder();
-  if (config.title) options.setTitle(config.title);
-  if (config.description) options.setDescription(config.description);
-  if (config.tag) options.addTag(config.tag);
-  if (config.version) options.setVersion(config.version);
+  let options = new DocumentBuilder();
+  if (config.title) options = options.setTitle(config.title);
+  if (config.description) options = options.setDescription(config.description);
+  if (config.tag) options = options.addTag(config.tag);
+  if (config.version) options = options.setVersion(config.version);
   if (config.addServer?.length > 0) {
-    config.addServer.forEach((server) => options.addServer(server));
+    config.addServer.forEach((server) => (options = options.addServer(server)));
   }
-  options.addBearerAuth();
+  options = options.addBearerAuth();
 
   options.build();
   const document = SwaggerModule.createDocument(app, {} as any, options as any);
