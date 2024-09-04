@@ -6,22 +6,26 @@ import {
 } from "@nestjs/swagger";
 import { SwaggerSetup } from "./types";
 
-export function setUpSwagger(app: INestApplication, config?: SwaggerSetup) {
+export function setUpSwagger(
+  app: INestApplication,
+  config: SwaggerSetup = { isAuthBear: true, persistAuthorization: true }
+) {
   const options = new DocumentBuilder();
-  if (config?.title) options.setTitle(config.title);
-  if (config?.description) options.setDescription(config.description);
-  if (config?.tag) options.addTag(config.tag);
-  if (config?.version) options.setVersion(config.version);
-  if (config?.addServer.length > 0) {
+  if (config.title) options.setTitle(config.title);
+  if (config.description) options.setDescription(config.description);
+  if (config.tag) options.addTag(config.tag);
+  if (config.version) options.setVersion(config.version);
+  if (config.addServer?.length > 0) {
     config.addServer.forEach((server) => options.addServer(server));
   }
+  if (config.isAuthBear) options.addBearerAuth();
 
   options.build();
-  const document = SwaggerModule.createDocument(app,{} as any, options as any);
+  const document = SwaggerModule.createDocument(app, {} as any, options as any);
   const customOptions: SwaggerCustomOptions = {
     customSiteTitle: "My API Docs",
     swaggerOptions: {
-      persistAuthorization: true,
+      persistAuthorization: config.persistAuthorization ? true : false,
     },
   };
   SwaggerModule.setup(
