@@ -21,7 +21,7 @@ export function setUpSwagger(
   options = options.addBearerAuth();
 
   const swagger = options.build();
-  const document = SwaggerModule.createDocument(app, {} as any, swagger as any);
+  const document = SwaggerModule.createDocument(app, swagger as any);
   const customOptions: SwaggerCustomOptions = {
     customSiteTitle: "My API Docs",
     swaggerOptions: {
