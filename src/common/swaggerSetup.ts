@@ -28,6 +28,8 @@ export function setUpSwagger(
       persistAuthorization: config.persistAuthorization ? true : false,
     },
   };
+
+  // config vercel
   const vercelConfig = {
     customfavIcon: "https://avatars.githubusercontent.com/u/6936373?s=200&v=4",
     customJs: [
@@ -43,7 +45,7 @@ export function setUpSwagger(
   if (process.env.ENV == "VERCEL") {
     Object.assign(customOptions, vercelConfig);
   }
-  
+
   SwaggerModule.setup(
     config?.url ? config?.url : "swagger",
     app,
